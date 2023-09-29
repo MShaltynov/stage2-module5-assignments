@@ -34,8 +34,7 @@ public class LocalProcessor {
         LocalProcessor.stringArrayList = stringArrayList;
     }
 
-    public LocalProcessor() {
-    }
+    public LocalProcessor() {}
 
     @ListIteratorAnnotation
     public void listIterator(List<String> stringList) {
