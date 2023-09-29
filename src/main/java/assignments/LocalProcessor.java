@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 import assignments.annotations.FullNameProcessorGeneratorAnnotation;
 import assignments.annotations.ListIteratorAnnotation;
@@ -37,34 +38,41 @@ public class LocalProcessor {
 
     @ListIteratorAnnotation
     public void listIterator(List<String> stringList) {
-        stringArrayList = new LinkedList<>(stringList);
-        for (int i = 0; i < period; i++) {
-            System.out.println(stringArrayList.get(i).hashCode());
+        try {
+            stringArrayList = new LinkedList<>(stringList);
+            for (String string : stringArrayList) {
+                System.out.println(string.hashCode());
+            }
+        } catch (NullPointerException nullPointerException) {
+            nullPointerException.printStackTrace();
         }
     }
 
     @FullNameProcessorGeneratorAnnotation
     public String fullNameProcessorGenerator(List<String> stringList) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String string:stringList) {
+        for (String string : stringList) {
             stringBuilder.append(string);
             stringBuilder.append(" ");
         }
-        processorName=stringBuilder.toString();
+        processorName = stringBuilder.toString();
         return processorName;
     }
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) {
-        try(Scanner informationScanner = new Scanner(file)){
+        try{
+            informationScanner = new Scanner(file);
             StringBuilder stringBuilder = new StringBuilder();
             while (informationScanner.hasNext()) {
                 stringBuilder.append(informationScanner.nextLine());
             }
-            processorVersion =stringBuilder.toString();
-        }
-        catch(FileNotFoundException fileNotFoundException){
+            processorVersion = stringBuilder.toString();
+        } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
+        }
+        finally{
+            informationScanner.close();
         }
     }
 }
